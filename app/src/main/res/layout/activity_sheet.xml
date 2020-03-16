@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" android:paddingBottom="5dp" android:paddingLeft="5dp"
+    android:paddingRight="5dp" android:paddingTop="5dp"
+    android:background="@drawable/background_list"
+    >
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" android:layout_weight="1">
+
+        <ImageView
+            android:id="@+id/IV_image"
+            android:layout_width="match_parent"
+            android:layout_height="77dp"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/cloud" />
+
+        <TextView
+            android:id="@+id/TV_topic"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingLeft="10dp" />
+
+        <TextView
+            android:id="@+id/TV_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingLeft="10dp"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/TV_content"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:layout_weight="1"
+            android:paddingLeft="10dp" />
+
+        <TextView
+            android:id="@+id/TV_source"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:layout_weight="1"
+            android:paddingLeft="10dp" />
+
+    </LinearLayout>
+</LinearLayout>
