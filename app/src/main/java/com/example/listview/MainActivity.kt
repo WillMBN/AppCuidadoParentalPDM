@@ -2,12 +2,13 @@ package com.example.listview
 
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
+import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.analytics.FirebaseAnalytics
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_sheet.view.*
 
@@ -15,6 +16,8 @@ class MainActivity : AppCompatActivity() {
 
     var charList = ArrayList<Sheet>()
     var ml:myList?=null
+
+    var mFirebaseAnalytics: FirebaseAnalytics? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,6 +29,8 @@ class MainActivity : AppCompatActivity() {
 
         ml =  myList(this,charList)
         charListLayout.adapter = ml
+
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this)
     }
 
     inner class myList:BaseAdapter {
