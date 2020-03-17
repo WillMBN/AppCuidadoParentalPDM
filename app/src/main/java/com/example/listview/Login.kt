@@ -2,6 +2,7 @@ package com.example.listview
 
 import android.content.Intent
 import android.os.Bundle
+import android.service.autofill.UserData
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -9,7 +10,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_login.*
-
 
 class Login : AppCompatActivity() {
 
@@ -45,12 +45,25 @@ class Login : AppCompatActivity() {
             if (task.isSuccessful) { // Sign in success, update UI with the signed-in user's information
                 val user = mAuth!!.getCurrentUser()
                 myRef!!.child(user!!.uid).setValue(user!!.email.toString())
-                Toast.makeText(this, "Authentication success.", Toast.LENGTH_SHORT).show()
+
+                var udata = UserData()
+                with(udata) {
+                    name = Nombre.text.toString()
+                    age = Edad.text.toString()
+                }
+                myRef!!.child("users").push().setValue(udata)
+
+                Toast.makeText(this, "Registro exitoso!", Toast.LENGTH_SHORT).show()
                 startNewActivity()
             } else { // If sign in fails, display a message to the user.
-                Toast.makeText(this, "Authentication failed.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Registro fallido...", Toast.LENGTH_SHORT).show()
             }
             // ...
         }
+    }
+
+    inner class UserData {
+        var name:String?=null
+        var age:String?=null
     }
 }

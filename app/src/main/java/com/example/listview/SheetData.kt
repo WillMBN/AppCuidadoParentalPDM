@@ -1,13 +1,22 @@
 package com.example.listview
 
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
+import android.view.View
+import android.widget.Button
+import android.widget.RatingBar
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_sheet_data.*
-import kotlinx.android.synthetic.main.activity_sheet_data.TV_title
-import kotlinx.android.synthetic.main.activity_sheet_data.TV_content
-import kotlinx.android.synthetic.main.activity_sheet_data.TV_topic
 
 class SheetData : AppCompatActivity() {
+
+    var database = FirebaseDatabase.getInstance()
+    var myRef: DatabaseReference?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,10 +29,46 @@ class SheetData : AppCompatActivity() {
         val source = bundle.getString("source")
         val img = bundle.getInt("img")
 
+        val stars = findViewById<View>(R.id.RT_rateUs) as RatingBar
+        val s_button = findViewById<View>(R.id.BT_rateUs) as Button
+
+        myRef = database.getReference("users")
+
         TV_topic.text = topic
         TV_title.text = title
         TV_content.text = content
         TV_source.text = source
         IV_image.setImageResource(img)
+
+        /*s_button.setOnClickListener(View.OnClickListener {
+            Toast.makeText(this, "Puntuación enviada!" + stars.rating.toString(),Toast.LENGTH_SHORT).show()
+            myRef!!.setValue("Puntuación: " + stars.rating).toString()
+        })*/
+    }
+
+    fun bt_mail_clicked (view: View) {
+        val intent = Intent(Intent.ACTION_SENDTO)
+        intent.data = Uri.parse("mailto:")
+        intent.putExtra(Intent.EXTRA_EMAIL, arrayOf("wbenitez16@utalca.cl"))
+        intent.putExtra(Intent.EXTRA_SUBJECT, "Contacto App Cuidado Parental")
+
+        startActivity(Intent.createChooser(intent, "Email via..."))
+    }
+
+    fun bt_wsp_clicked (view: View) {
+        val pm = packageManager
+        try {
+            val waIntent = Intent(Intent.ACTION_SEND)
+            waIntent.type = "text/plain"
+            val text = "YOUR TEXT HERE"
+            val info = pm.getPackageInfo("com.whatsapp", PackageManager.GET_META_DATA)
+            //Check if package exists or not. If not then code in catch block will be called
+            waIntent.setPackage("com.whatsapp")
+            waIntent.putExtra(Intent.EXTRA_TEXT, text)
+            startActivity(Intent.createChooser(waIntent, "Share with"))
+        } catch (e: PackageManager.NameNotFoundException) {
+            Toast.makeText(this, "WhatsApp not Installed", Toast.LENGTH_SHORT).show()
+        }
     }
 }
+
