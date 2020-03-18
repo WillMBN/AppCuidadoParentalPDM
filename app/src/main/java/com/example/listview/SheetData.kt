@@ -9,12 +9,14 @@ import android.widget.Button
 import android.widget.RatingBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_sheet_data.*
 
 class SheetData : AppCompatActivity() {
 
+    var mAuth: FirebaseAuth? = null
     var database = FirebaseDatabase.getInstance()
     var myRef: DatabaseReference?=null
 
@@ -30,8 +32,9 @@ class SheetData : AppCompatActivity() {
         val img = bundle.getInt("img")
 
         val stars = findViewById<View>(R.id.RT_rateUs) as RatingBar
-        val s_button = findViewById<View>(R.id.BT_rateUs) as Button
+        val sButton = findViewById<View>(R.id.BT_rateUs) as Button
 
+        mAuth = FirebaseAuth.getInstance()
         myRef = database.getReference("users")
 
         TV_topic.text = topic
@@ -40,10 +43,15 @@ class SheetData : AppCompatActivity() {
         TV_source.text = source
         IV_image.setImageResource(img)
 
-        /*s_button.setOnClickListener(View.OnClickListener {
-            Toast.makeText(this, "Puntuación enviada!" + stars.rating.toString(),Toast.LENGTH_SHORT).show()
-            myRef!!.setValue("Puntuación: " + stars.rating).toString()
-        })*/
+        sButton.setOnClickListener(View.OnClickListener {
+            val user = mAuth!!.getCurrentUser()
+            var udata = UserData()
+            with(udata) {
+                userRating = stars.rating
+            }
+            myRef!!.child(user!!.uid).push().setValue(udata)
+            Toast.makeText(this, "Puntuación enviada! " + stars.rating.toString(),Toast.LENGTH_SHORT).show()
+        })
     }
 
     fun bt_mail_clicked (view: View) {

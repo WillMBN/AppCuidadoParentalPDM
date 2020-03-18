@@ -84,7 +84,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Califica la utilidad de esta información"
+                    android:text="Califica la utilidad de nuestra app"
                     android:textStyle="bold" />
 
                 <LinearLayout

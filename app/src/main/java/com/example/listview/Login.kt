@@ -50,8 +50,10 @@ class Login : AppCompatActivity() {
                 with(udata) {
                     name = Nombre.text.toString()
                     age = Edad.text.toString()
+                    email = Mail.text.toString()
+                    password = Pass.text.toString()
                 }
-                myRef!!.child("users").push().setValue(udata)
+                myRef!!.child(user!!.uid).push().setValue(udata)
 
                 Toast.makeText(this, "Registro exitoso!", Toast.LENGTH_SHORT).show()
                 startNewActivity()
@@ -60,10 +62,5 @@ class Login : AppCompatActivity() {
             }
             // ...
         }
-    }
-
-    inner class UserData {
-        var name:String?=null
-        var age:String?=null
     }
 }
